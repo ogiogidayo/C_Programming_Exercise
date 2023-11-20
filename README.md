@@ -1,4 +1,4 @@
 # C Programming Exercise
 Code for C programming exercises.
 
-## Bitwise Operation
+## 0. Bitwise Operation
