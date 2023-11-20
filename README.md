@@ -1,2 +1,2 @@
-# C_Programming_Exercise
+# C Programming Exercise
 Code for C programming exercises.
