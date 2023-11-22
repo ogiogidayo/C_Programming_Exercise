@@ -43,6 +43,7 @@ void store(unsigned char *a)
             count++;
         }
     }
+    
 }
 
 void print_bits(unsigned char *a, int size)
