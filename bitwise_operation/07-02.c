@@ -7,9 +7,9 @@ void print_bits(unsigned char *a, int size);
 
 int main()
 {
-    unsigned char prime_array[25 * 7 / 8 + 1] = {0};
-    store(prime_array);
-    print_bits(prime_array, sizeof(prime_array));
+    unsigned char prime[22] = {0};
+    store(prime);
+    print_bits(prime, sizeof(prime));
     return 0;
 }
 
@@ -28,19 +28,19 @@ bool prime_found(int n)
 }
 void store(unsigned char *a)
 {
-    int prime_count = 0;
+    int count = 0;
     for (int i = 2; i <= 100; i++)
     {
         if (prime_found(i))
         {
-            int char_index = (prime_count * 7) / 8;
-            int bit_offset = (prime_count * 7) % 8;
+            int char_index = (count * 7) / 8;
+            int bit_offset = (count * 7) % 8;
             a[char_index] |= (i & 0x7F) << bit_offset;
             if (bit_offset + 7 > 8)
             {
                 a[char_index + 1] |= (i & 0x7F) >> (8 - bit_offset);
             }
-            prime_count++;
+            count++;
         }
     }
 }
