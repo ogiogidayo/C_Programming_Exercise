@@ -1,47 +1,76 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-void convertToBinary(unsigned char *img, int width, int height) {
-    for (int i = 0; i < width * height; i++) {
-        img[i] = (img[i] < 128) ? 0 : 255;
-    }
-}
+int main(void) {
+    FILE *fp_i, *fp_o;
+    char *input_file = "cat001.pgm";
+    char *output_file = "catbin.pgm";
+    char head1[255], head2[255];
+    int w, h, mpv, i;
 
-int main() {
-    char inputFilename[] = "cat001.pgm";
-    char outputFilename[] = "catbin.pgm";
-
-    FILE *inputFile = fopen(inputFilename, "rb");
-    if (inputFile == NULL) {
-        perror("file not found");
-        return 1;
+    if ((fp_i = fopen(input_file, "rb")) == NULL)
+    {
+        printf("Cannot open", input_file);
+        exit(1);
     }
 
-    char format[3];
-    int width, height, maxVal;
- 
-    fscanf(inputFile, "%s %d %d %d\n", format, &width, &height, &maxVal);
-
-    unsigned char *img = (unsigned char *)malloc(width * height);
-
-    fread(img, sizeof(unsigned char), width * height, inputFile);
-    fclose(inputFile);
-
-    convertToBinary(img, width, height);
-
-    FILE *outputFile = fopen(outputFilename, "wb");
-    if (outputFile == NULL) {
-        perror("output file not found");
-        free(img);
-        return 1;
+    if (fgets(head1, 255, fp_i) == NULL || fgets(head2, 255, fp_i) == NULL ||
+        fscanf(fp_i, "%d %d", &w, &h) != 2 || fscanf(fp_i, "%d", &mpv) != 1) 
+    {
+        printf("ERROR\n");
+        fclose(fp_i);
+        exit(1);
     }
 
-    fprintf(outputFile, "P5\n%d %d\n%d\n", width, height, maxVal);
-    fwrite(img, sizeof(unsigned char), width * height, outputFile);
+    int v = w * h;
+    unsigned char *imageData = (unsigned char *)malloc(v * sizeof(unsigned char));
+    if (imageData == NULL) 
+    {
+        printf("ERROR\n");
+        fclose(fp_i);
+        exit(1);
+    }
 
-    fclose(outputFile);
-    free(img);
+    if (fread(imageData, sizeof(unsigned char), v, fp_i) != v) 
+    {
+        printf("ERROR!3\n");
+        fclose(fp_i);
+        free(imageData);
+        exit(1);
+    }
+
+    for (i = 0; i < v; i++)
+     {
+        if (imageData[i] < 128) 
+        {
+            imageData[i] = 0;
+        } 
+        else 
+        {
+            imageData[i] = 255;
+        }
+    }
+
+    if ((fp_o = fopen(output_file, "wb")) == NULL) 
+    {
+        printf("Cannot open the outputfile!\n", output_file);
+        fclose(fp_i);
+        free(imageData);
+        exit(1);
+    }
+
+    fprintf(fp_o, "%s%s", head1, head2);
+    fprintf(fp_o, "%d %d\n", w, h);
+    fprintf(fp_o, "%d\n", mpv);
+
+    if (fwrite(imageData, sizeof(unsigned char), v, fp_o) != v) 
+    {
+        printf("ERROR!4\n");
+    }
+
+    fclose(fp_i);
+    fclose(fp_o);
+    free(imageData);
 
     return 0;
 }
