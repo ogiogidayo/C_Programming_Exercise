@@ -23,39 +23,39 @@ int main(void) {
     }
 
     int v = w * h;
-    unsigned char *imageData = (unsigned char *)malloc(v * sizeof(unsigned char));
-    if (imageData == NULL) 
+    unsigned char *image = (unsigned char *)malloc(v * sizeof(unsigned char));
+    if (image == NULL) 
     {
         printf("ERROR\n");
         fclose(fp_i);
         exit(1);
     }
 
-    if (fread(imageData, sizeof(unsigned char), v, fp_i) != v) 
+    if (fread(image, sizeof(unsigned char), v, fp_i) != v) 
     {
         printf("ERROR!3\n");
         fclose(fp_i);
-        free(imageData);
+        free(image);
         exit(1);
     }
 
     for (i = 0; i < v; i++)
      {
-        if (imageData[i] < 128) 
+        if (image[i] < 128) 
         {
-            imageData[i] = 0;
+            image[i] = 0;
         } 
         else 
         {
-            imageData[i] = 255;
+            image[i] = 255;
         }
     }
 
     if ((fp_o = fopen(output_file, "wb")) == NULL) 
     {
-        printf("Cannot open the outputfile!\n", output_file);
+        printf("Cannot open!\n", output_file);
         fclose(fp_i);
-        free(imageData);
+        free(image);
         exit(1);
     }
 
@@ -63,14 +63,14 @@ int main(void) {
     fprintf(fp_o, "%d %d\n", w, h);
     fprintf(fp_o, "%d\n", mpv);
 
-    if (fwrite(imageData, sizeof(unsigned char), v, fp_o) != v) 
+    if (fwrite(image, sizeof(unsigned char), v, fp_o) != v) 
     {
         printf("ERROR!4\n");
     }
 
     fclose(fp_i);
     fclose(fp_o);
-    free(imageData);
+    free(image);
 
     return 0;
 }
