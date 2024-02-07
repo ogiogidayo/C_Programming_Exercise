@@ -3,6 +3,7 @@
 #include <time.h>
 #include "main.h"
 
+
 // count the number of hits and blows
 int countHitBlow(int num, int ans, int *hit, int *blow) {
     int i, j;
