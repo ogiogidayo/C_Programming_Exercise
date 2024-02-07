@@ -4,7 +4,7 @@
 #include "main.h"
 
 
-// count the number of hits and blows
+// ヒット数とブロー数を数える関数
 int countHitBlow(int num, int ans, int *hit, int *blow) {
     int i, j;
     int digit[4];

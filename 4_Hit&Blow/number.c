@@ -3,7 +3,7 @@
 #include <time.h>
 #include "main.h"
 
-// function to generate random numbers
+// 乱数を生成する関数
 int generateNumber() {
     int num;
     srand((unsigned)time(NULL));
@@ -11,7 +11,7 @@ int generateNumber() {
     return num;
 }
 
-// function to determine if all the generated random numbers have different digits
+// 数字の格桁が異なるかどうかを判定する関数
 int checkNumber(int num) {
     int i, j;
     int digit[4];
