@@ -24,7 +24,7 @@ int countHitBlow(int num, int ans, int *hit, int *blow) {
     }
     for (i = 0; i < 4; i++)
         for (j = 0; j < 4; j++)
-            if (digit[i] == digitAns[j])
+            if (digit[i] = digitAns[j])
                 if(i != j)
                     (*blow)++;
     return 0;
